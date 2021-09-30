@@ -4,8 +4,9 @@ let position = []; // roomba position
 let dirt = []; // list of dirt positions
 let path = []; //path taken by roomba
 let dirtCollected = 0;
-let finalPosition = [];
+let lastPosition = [];
 
+const { Console } = require('console');
 //load input file
 var fs = require('fs');
 const data = fs.readFileSync('./input.txt', 'utf-8');
@@ -41,8 +42,9 @@ function move(currentPosition, direction, boundaries){
     let newPosition = [];
     switch (direction){
         case 'N': //y+1
-            if ((currentPosition[1] + 1 )> boundaries[1]){
+            if ((currentPosition[1] + 1 ) > boundaries[1]){
                 newPosition = [currentPosition[0], boundaries[1]];
+                console.log('hit north wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]+1];
             }
@@ -50,6 +52,7 @@ function move(currentPosition, direction, boundaries){
         case 'S': //y-1
             if ((currentPosition[1] - 1) < 0){
                 newPosition = [currentPosition[0], 0];
+                console.log('hit south wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]-1];
             }
@@ -57,6 +60,7 @@ function move(currentPosition, direction, boundaries){
         case 'W': //x-1
             if ((currentPosition[0] - 1) < 0){
                 newPosition = [0, currentPosition[1]];
+                console.log('hit west wall');
             } else {
             newPosition = [currentPosition[0]-1, currentPosition[1]];
             }
@@ -64,6 +68,7 @@ function move(currentPosition, direction, boundaries){
         case 'E': //x+1
             if ((currentPosition[0] + 1 )> boundaries[0]){
                 newPosition = [boundaries[0], currentPosition[1]];
+                console.log('hit east wall');
             } else {
             newPosition = [currentPosition[0]+1, currentPosition[1]];
             }
@@ -73,17 +78,29 @@ function move(currentPosition, direction, boundaries){
 }
 //compare position to locations of dirt, increment count and remove if matched
 function pickupDirt(currentPosition, dirt){
-    dirt.forEach(spot, index => {
-        if(spot[0]===currentPosition[0] && spot[1]===currentPosition[1]){
+    for(let i = 0; i<dirt.length; i++){
+        if(dirt[i][0]===currentPosition[0]&&dirt[i][1]===currentPosition[1]){
             dirtCollected++;
-            dirt.splice(index,1);
-        };
-    });
+            dirt.splice(i,1);
+        }
+    }
 }
 
 //initial position check for dirt
-pickupDirt()
+//pickupDirt(position, dirt);
 //loop over path, update position, collect dirt, return final position
+console.log('Starting position:');
+console.log(position);
+console.log('Moving!');
 path.forEach(direction => {
+    let newPosition = move(position, direction, boundaries);
+    console.log(newPosition);
+    pickupDirt(newPosition, dirt);
+    lastPosition = newPosition;
+    position = newPosition;
+});
 
-})
+let finalPosition = lastPosition[0].toString().concat(' ', lastPosition[1].toString());
+console.log('results:');
+console.log(finalPosition);
+console.log(dirtCollected);
