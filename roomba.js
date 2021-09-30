@@ -29,12 +29,12 @@ for(let i =0; i< lines.length; i++){
     let path_str = lines[i];
     path = path_str.split("");
 }
-console.log(`Boundaries: ${boundaries} \nPosition: ${position}\nDirt: ${dirt}\n Path: ${path}`);
-console.log(boundaries);
-console.log(position);
-console.log(dirt);
-console.log(dirt[1][0]===position[0]&&dirt[1][1] === position[1]);
-console.log(path);
+// console.log(`Boundaries: ${boundaries} \nPosition: ${position}\nDirt: ${dirt}\n Path: ${path}`);
+// console.log(boundaries);
+// console.log(position);
+// console.log(dirt);
+// console.log(dirt[1][0]===position[0]&&dirt[1][1] === position[1]);
+// console.log(path);
 
 // process path and collect dirt
 //position = [X, Y]
@@ -44,7 +44,7 @@ function move(currentPosition, direction, boundaries){
         case 'N': //y+1
             if ((currentPosition[1] + 1 ) > boundaries[1]){
                 newPosition = [currentPosition[0], boundaries[1]];
-                console.log('hit north wall');
+                // console.log('hit north wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]+1];
             }
@@ -52,7 +52,7 @@ function move(currentPosition, direction, boundaries){
         case 'S': //y-1
             if ((currentPosition[1] - 1) < 0){
                 newPosition = [currentPosition[0], 0];
-                console.log('hit south wall');
+                // console.log('hit south wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]-1];
             }
@@ -60,7 +60,7 @@ function move(currentPosition, direction, boundaries){
         case 'W': //x-1
             if ((currentPosition[0] - 1) < 0){
                 newPosition = [0, currentPosition[1]];
-                console.log('hit west wall');
+                // console.log('hit west wall');
             } else {
             newPosition = [currentPosition[0]-1, currentPosition[1]];
             }
@@ -68,7 +68,7 @@ function move(currentPosition, direction, boundaries){
         case 'E': //x+1
             if ((currentPosition[0] + 1 )> boundaries[0]){
                 newPosition = [boundaries[0], currentPosition[1]];
-                console.log('hit east wall');
+                // console.log('hit east wall');
             } else {
             newPosition = [currentPosition[0]+1, currentPosition[1]];
             }
@@ -89,18 +89,18 @@ function pickupDirt(currentPosition, dirt){
 //initial position check for dirt
 //pickupDirt(position, dirt);
 //loop over path, update position, collect dirt, return final position
-console.log('Starting position:');
-console.log(position);
-console.log('Moving!');
+// console.log('Starting position:');
+// console.log(position);
+// console.log('Moving!');
 path.forEach(direction => {
     let newPosition = move(position, direction, boundaries);
-    console.log(newPosition);
+    // console.log(newPosition);
     pickupDirt(newPosition, dirt);
     lastPosition = newPosition;
     position = newPosition;
 });
 
 let finalPosition = lastPosition[0].toString().concat(' ', lastPosition[1].toString());
-console.log('results:');
+// console.log('results:');
 console.log(finalPosition);
 console.log(dirtCollected);
