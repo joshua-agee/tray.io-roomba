@@ -80,6 +80,7 @@ function move(currentPosition, direction, boundaries){
 function pickupDirt(currentPosition, dirt){
     for(let i = 0; i<dirt.length; i++){
         if(dirt[i][0]===currentPosition[0]&&dirt[i][1]===currentPosition[1]){
+            // console.log('Yum!');
             dirtCollected++;
             dirt.splice(i,1);
         }
