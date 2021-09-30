@@ -1,0 +1,20 @@
+load file
+parse file
+    first line: tuple for coordinate bounds (bottom left is 0, 0 )
+    second line: set start point coordinates roomba tuple/array of 2
+    x lines: load "dirt" coordinates array of tuples
+    last line: load directions
+
+loop over directions, 
+    update roomba position tuple, 
+    check corresponding coordinates for dirt (compare to all entries on list of dirt) 
+    increment dirt counter for each match and remove dirt from list
+
+direction function 
+    if N, y + 1
+    if S y - 1
+    if E x + 1
+    if W x - 1
+    check against boundaries
+
+return ending coordinates and count of dirt collected
