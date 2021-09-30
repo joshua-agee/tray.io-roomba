@@ -14,16 +14,19 @@ const data = fs.readFileSync('./input.txt', 'utf-8');
 const lines = data.split(/\r?\n/)
 for(let i =0; i< lines.length; i++){
     if (i == 0){
-        boundaries.push(lines[i].split(" "));
+        boundaries.push(parseInt(lines[i].split(" ")[0]));
+        boundaries.push(parseInt(lines[i].split(" ")[1]));
     }
     if (i == 1){
-        position.push(lines[i].split(" "));
+        position.push(parseInt(lines[i].split(" ")[0]));
+        position.push(parseInt(lines[i].split(" ")[1]));
     }
     if (i < lines.length -1){
-        dirt.push([lines[i].split(" ")]);
+        dirt.push([parseInt(lines[i].split(" ")[0]),parseInt(lines[i].split(" ")[1])]);
     }
     let path_str = lines[i];
     path = path_str.split("");
 }
 console.log(`Boundaries: ${boundaries} \nPosition: ${position}\nDirt: ${dirt}\n Path: ${path}`);
-console.log(dirt[0][0]);
+console.log(position);
+console.log(dirt[1][0]===position[0]);
