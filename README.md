@@ -1,2 +1,4 @@
 # tray.io-roomba
-code exercise
+Code exercise for Solutions Architect role at Tray.io
+
+
