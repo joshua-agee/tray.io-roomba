@@ -8,10 +8,10 @@ let lastPosition = [];
 const tileIcon = "🔲";
 const dirtIcon = "💩";
 const cleanIcon = "✨";
-const northIcon = "⬆";
-const southIcon = "⬇";
-const westIcon = "⬅";
-const eastIcon = "➡";
+const northIcon = "⬆️";
+const southIcon = "⬇️";
+const westIcon = "⬅️";
+const eastIcon = "⬅️";
 const startIcon = "⭕️";
 const endIcon = "❌";
 
@@ -41,9 +41,17 @@ for(let i =0; i< lines.length; i++){
     path = path_str.split("");
 }
 
-map.push([position, startIcon]);
+function addToMap(map, position, icon){
+    position = position;
+    icon = icon;
+    map.push({position, icon});
+}
 
-console.log(map[0]);
+
+// map.push({position, startIcon});
+addToMap(map, position, startIcon);
+
+// console.log(map[0]);
 // console.log(`Boundaries: ${boundaries} \nPosition: ${position}\nDirt: ${dirt}\n Path: ${path}`);
 // console.log(boundaries);
 // console.log(position);
@@ -59,42 +67,51 @@ function move(currentPosition, direction, boundaries){
         case 'N': //y+1
             if ((currentPosition[1] + 1 ) > boundaries[1]){
                 newPosition = [currentPosition[0], boundaries[1]];
-                map.push([newPosition, northIcon]);
+                // map.push({newPosition, northIcon});
+                // addToMap(map, newPosition, northIcon);
                 // console.log('hit north wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]+1];
-            map.push([newPosition, northIcon]);
+            // map.push({newPosition, northIcon});
+            // addToMap(map, newPosition, northIcon);
             }
+            addToMap(map, newPosition, northIcon);
             break;
         case 'S': //y-1
             if ((currentPosition[1] - 1) < 0){
                 newPosition = [currentPosition[0], 0];
-                map.push([newPosition, southIcon]);
+                // map.push({newPosition, southIcon});
+                // addToMap(map, newPosition, southIcon);
                 // console.log('hit south wall');
             } else {
             newPosition = [currentPosition[0], currentPosition[1]-1];
-            map.push([newPosition, southIcon]);
+            // map.push({newPosition, southIcon});
             }
+            addToMap(map, newPosition, southIcon);
             break;
         case 'W': //x-1
             if ((currentPosition[0] - 1) < 0){
                 newPosition = [0, currentPosition[1]];
-                map.push([newPosition, westIcon]);
+                // map.push({newPosition, westIcon});
+                // addToMap(map, newPosition, westIcon);
                 // console.log('hit west wall');
             } else {
             newPosition = [currentPosition[0]-1, currentPosition[1]];
-            map.push([newPosition, westIcon]);
+            // map.push({newPosition, westIcon});
             }
+            addToMap(map, newPosition, westIcon);
             break;
         case 'E': //x+1
             if ((currentPosition[0] + 1 )> boundaries[0]){
                 newPosition = [boundaries[0], currentPosition[1]];
-                map.push([newPosition, eastIcon]);
+                // map.push({newPosition, eastIcon});
+                // addToMap(map, newPosition, eastIcon);
                 // console.log('hit east wall');
             } else {
             newPosition = [currentPosition[0]+1, currentPosition[1]];
-            map.push([newPosition, westIcon]);
+            // map.push({newPosition, eastIcon});
             }
+            addToMap(map, newPosition, eastIcon);
             break;
     };
     return newPosition;
@@ -105,7 +122,8 @@ function pickupDirt(currentPosition, dirt){
         if(dirt[i][0]===currentPosition[0]&&dirt[i][1]===currentPosition[1]){
             // console.log('Yum!');
             dirtCollected++;
-            map.push([currentPosition, cleanIcon]);
+            // map.push({currentPosition, cleanIcon});
+            addToMap(map, currentPosition, cleanIcon);
             dirt.splice(i,1);
         }
     }
@@ -125,14 +143,47 @@ path.forEach(direction => {
     position = newPosition;
 });
 
+// map.push({lastPosition, endIcon});
+addToMap(map, lastPosition, endIcon);
 let finalPosition = lastPosition[0].toString().concat(' ', lastPosition[1].toString());
 // console.log('results:');
-map.push([finalPosition, endIcon]);
+
 console.log(finalPosition);
 console.log(dirtCollected);
 
 for(let i = 0; i<dirt.length; i++){
-    map.push(dirt[i], dirtIcon);
+    let dirtSpot = dirt[i];
+    // map.push({dirtSpot, dirtIcon});
+    addToMap(map, dirtSpot, dirtIcon);
 }
 //build map
-console.log(map);
+// console.log(map);
+// console.log(map.length);
+
+// let result = map.find(({position}) => position[0] == 4 && position[1] == 2);
+// console.log(result);
+//retrieve icon from map
+function getIconFromMap(map, x, y){
+    return map.find(({position}) => position[0] == x && position[1] == y).icon;
+}
+// console.log(getIconFromMap(map, 4,2));
+
+//build map from results
+let mapResult = [];
+for(let y=0; y<=boundaries[1]; y++){
+    let row=[];
+    for(let x=0; x<= boundaries[0]; x++){
+        try {
+            // console.log(getIconFromMap(map, x, y));
+            row.push(getIconFromMap(map, x, y));
+        }
+        catch(error) {
+            // console.log(error);
+            row.push(tileIcon);
+        }
+    }
+    mapResult.unshift(row.toString());
+    row = [];
+}
+
+console.log(mapResult);
