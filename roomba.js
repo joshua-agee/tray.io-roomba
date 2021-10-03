@@ -125,7 +125,7 @@ path.forEach((direction, index) => {
     pickupDirt(newPosition, dirt);
     lastPosition = newPosition;
     position = newPosition;
-    console.log(`Step: ${index}:`);
+    console.log(`Step: ${index+1}:`);
     console.log(makeMap());
 });
 
